@@ -1,0 +1,38 @@
+#Start kafka with kraft
+kafka-storage.sh random-uuid
+kafka-storage.sh format -t <uuid> -c ~/kafka_2.13-3.0.0/config/kraft/server.properties
+kafka-server-start.sh ~/kafka_2.13-3.0.0/config/kraft/server.properties
+
+
+#list kafka topics
+kafka-topics.sh --bootstrap-server localhost:9092 --list
+
+#create first_topic
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic first_topic 
+
+#create kafka topic with partition
+afka-topics.sh --bootstrap-server localhost:9092 --create --topic second_topic --partitions 10
+
+#describe topic
+kafka-topics.sh --bootstrap-server localhost:9092 --topic first_topic --describe
+
+#Produce to a topic from console
+afka-console-producer.sh --bootstrap-server localhost:9092 --topic third_topic
+
+#Produce a message with key   in meaage key:Value
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic third_topic --property parse.key=true --property key.separator=:
+
+#Consume topic from beninning
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic forth_topic --from-beginning
+
+#Consume topic 
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic forth_topic
+
+#producer with roundrobin 
+kafka-console-producer.sh --bootstrap-server lohost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic group_topic
+
+#List kafka consumer group
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+
+#reset topic offset in consumer group 
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group first_app --reset-offsets --to-earliest --topic group_topic --execute
