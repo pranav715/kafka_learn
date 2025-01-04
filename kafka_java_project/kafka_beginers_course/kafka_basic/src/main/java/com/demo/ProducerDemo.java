@@ -1,7 +1,9 @@
 package com.demo;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,13 @@ public class ProducerDemo {
         ProducerRecord<String, String> producerRecord = new ProducerRecord<>("java_demo", "Hello");
 
         //send data
-        producer.send(producerRecord);
+        producer.send(producerRecord, new Callback(){
+
+            @Override
+            public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                log.info("received metadata for topic = " + recordMetadata.topic());
+            }
+        });
 
         //send all data by producer
         producer.flush();

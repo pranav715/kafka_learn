@@ -1,7 +1,7 @@
-#Start kafka with kraft
+kafka_2.13-3.9.0#Start kafka with kraft
 kafka-storage.sh random-uuid
-kafka-storage.sh format -t <uuid> -c ~/kafka_2.13-3.0.0/config/kraft/server.properties
-kafka-server-start.sh ~/kafka_2.13-3.0.0/config/kraft/server.properties
+kafka-storage.sh format -t <uuid> -c ~/kafka_2.13-3.9.0/config/kraft/server.properties
+kafka-server-start.sh ~/kafka_2.13-3.9.0/config/kraft/server.properties
 
 
 #list kafka topics
